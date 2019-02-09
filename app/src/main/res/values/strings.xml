@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">VotaDevMob</string>
+    <string name="poll_title">Título</string>
+    <string name="poll_create">Criar votação</string>
+    <string name="poll_option">Digite uma opção</string>
+    <string name="add_option">Adicionar opção</string>
+    <string name="one_answer">Única resposta</string>
+    <string name="multiple_answers">Múltiplas respostas</string>
 </resources>
