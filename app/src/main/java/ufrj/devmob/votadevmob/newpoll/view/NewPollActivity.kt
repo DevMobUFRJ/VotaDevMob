@@ -16,11 +16,12 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
         setContentView(R.layout.activity_new_poll)
     }
 
+    private val newPollPresenter = NewPollPresenterImpl()
+
     private fun EditText.fieldToString() = this.text.toString()
     private fun EditText.isBlank() = this.text.toString().isBlank()
     private fun Context.toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-    private val options = mutableMapOf<String, Int>()
 //    button_addOption.setOnClickListener {}
 
     override fun addOption(v: View){
@@ -29,9 +30,10 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
             return
         }
 
-        options.put(field_pollOption.fieldToString(), 0)
+        val option = field_pollOption.fieldToString()
+        text_options.text = newPollPresenter.addOptionToMap(option)
+
         field_pollOption.text.clear()
-        text_options.text = options.keys.joinToString(separator = System.getProperty("line.separator"))
     }
 
     override fun requestNewPoll(v: View){
@@ -39,6 +41,8 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
             applicationContext.toast("Digite um título")
             return
         }
+
+        val options = newPollPresenter.options
         if (options.size < 2) {
             applicationContext.toast("A votação deve ter duas ou mais opções")
             return
