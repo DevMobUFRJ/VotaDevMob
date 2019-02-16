@@ -7,10 +7,8 @@ class NewPollPresenterImpl : NewPollPresenter{
 
     val options = mutableMapOf<String,Int>()
 
-    override fun addOptionToMap(option: String): String{
+    override fun addOptionToMap(option: String){
         options.put(option, 0)
-
-        return options.keys.joinToString(separator = System.getProperty("line.separator"))
     }
 
     override fun mountPollDocument(title: String, password: String, options: Map<String, Int>){
