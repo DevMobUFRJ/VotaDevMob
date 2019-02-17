@@ -5,15 +5,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_new_poll.*
+import kotlinx.android.synthetic.main.card_poll_option.view.*
 import ufrj.devmob.votadevmob.R
 import ufrj.devmob.votadevmob.newpoll.presenter.NewPollPresenterImpl
-import ufrj.devmob.votadevmob.newpoll.presenter.adapter.PollOptionAdapter
 
 class NewPollActivity : AppCompatActivity(), NewPollView {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,8 +25,11 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
         initListeners()
     }
 
+    private val selectedOptions = mutableSetOf<View>()
     private val newPollPresenter = NewPollPresenterImpl()
+    private val actionModeCallback = ActionModeCallback()
 
+    // Extension functions
     private fun EditText.fieldToString() = this.text.toString()
     private fun EditText.isBlank() = this.text.toString().isBlank()
     private fun Context.toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -39,47 +41,65 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
     private fun optionItemSelected(item: View) {
         when (item.isSelected) {
             false -> {
-                item.setBackgroundResource(R.drawable.selected_view)
                 item.isSelected = true
+                item.setBackgroundResource(R.drawable.selected_view)
+                selectedOptions.add(item)
+                actionModeCallback.startActionMode(item)
             }
             true -> {
-                item.setBackgroundResource(R.drawable.unselected_view)
                 item.isSelected = false
+                item.setBackgroundResource(R.drawable.unselected_view)
+                selectedOptions.remove(item)
             }
+        }
+        Log.i("action mode", selectedOptions.size.toString())
+
+        if (selectedOptions.isEmpty()) {
+            actionModeCallback.finishActionMode()
         }
     }
 
-    private fun initListeners(){
-        button_addOption.setOnClickListener {
-            if (field_pollOption.isBlank()) {
-                applicationContext.toast("Digite uma opção")
-            } else {
-                val option = field_pollOption.fieldToString()
-                newPollPresenter.addOptionToMap(option)
-                field_pollOption.text.clear()
-                applicationContext.hideKeyboard(button_addOption)
-            }
+    private fun addOption () {
+        if (field_pollOption.isBlank()) {
+            applicationContext.toast("Digite uma opção")
+        } else {
+            val option = field_pollOption.fieldToString()
+            newPollPresenter.addOptionToMap(option)
+            field_pollOption.text.clear()
+            applicationContext.hideKeyboard(button_addOption)
         }
+    }
 
-        button_createPoll.setOnClickListener {
-            Log.i("view showing: ", options_recyclerView.layoutManager?.childCount.toString())
-            val options = newPollPresenter.options
-            if (field_pollTitle.isBlank()) {
-                applicationContext.toast("Digite um título")
-            } else if (options.size < 2) {
-                applicationContext.toast("A votação deve ter duas ou mais opções")
-            } else {
+    fun deleteSelectedOptions() {
+        Log.i("deletado", selectedOptions.toString())
+        for (option in selectedOptions) {
+            newPollPresenter.options.remove(option.text_card_poll.text.toString())
+            option.isSelected = false
+            option.setBackgroundResource(R.drawable.unselected_view)
+            options_recyclerView.adapter?.notifyDataSetChanged()
+        }
+    }
+
+    private fun createPoll() {
+        val options = newPollPresenter.options
+        when {
+            field_pollTitle.isBlank() -> applicationContext.toast("Digite um título")
+            options.size < 2 -> applicationContext.toast("A votação deve ter duas ou mais opções")
+
+            else -> {
                 val title = field_pollTitle.fieldToString()
                 val password = field_pollPassword.fieldToString()
 
-                val newPollPresenterImpl = NewPollPresenterImpl()
-                newPollPresenterImpl.mountPollDocument(title, password, options)
+                newPollPresenter.mountPollDocument(title, password, options)
                 navigateToVoting()
             }
         }
     }
 
-    // TODO Delete option
+    private fun initListeners(){
+        button_addOption.setOnClickListener { addOption() }
+        button_createPoll.setOnClickListener { createPoll() }
+    }
 
     override fun navigateToVoting() {
         val isMultiple = toggle_answers.isChecked
