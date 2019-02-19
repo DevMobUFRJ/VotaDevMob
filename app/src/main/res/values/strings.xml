@@ -6,4 +6,6 @@
     <string name="add_option">Adicionar opção</string>
     <string name="one_answer">Única resposta</string>
     <string name="multiple_answers">Múltiplas respostas</string>
+    <string name="poll_password">Senha</string>
+    <string name="add_button">Adicionar</string>
 </resources>

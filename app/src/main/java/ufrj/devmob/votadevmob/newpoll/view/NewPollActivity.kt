@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_new_poll.*
 import kotlinx.android.synthetic.main.card_poll_option.view.*
@@ -27,7 +29,7 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
 
     private val selectedOptions = mutableSetOf<View>()
     private val newPollPresenter = NewPollPresenterImpl()
-    private val actionModeCallback = ActionModeCallback()
+    private val actionModeCallback = ActionModeCallback(this)
 
     // Extension functions
     private fun EditText.fieldToString() = this.text.toString()
@@ -44,7 +46,7 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
                 item.isSelected = true
                 item.setBackgroundResource(R.drawable.selected_view)
                 selectedOptions.add(item)
-                actionModeCallback.startActionMode(item)
+                if (selectedOptions.size == 1) actionModeCallback.startActionMode(item)
             }
             true -> {
                 item.isSelected = false
@@ -52,7 +54,6 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
                 selectedOptions.remove(item)
             }
         }
-        Log.i("action mode", selectedOptions.size.toString())
 
         if (selectedOptions.isEmpty()) {
             actionModeCallback.finishActionMode()
@@ -65,7 +66,7 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
         } else {
             val option = field_pollOption.fieldToString()
             newPollPresenter.addOptionToMap(option)
-            field_pollOption.text.clear()
+            field_pollOption.text?.clear()
             applicationContext.hideKeyboard(button_addOption)
         }
     }
@@ -76,8 +77,18 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
             newPollPresenter.options.remove(option.text_card_poll.text.toString())
             option.isSelected = false
             option.setBackgroundResource(R.drawable.unselected_view)
-            options_recyclerView.adapter?.notifyDataSetChanged()
         }
+        selectedOptions.clear()
+        options_recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    fun unselectAllOptions() {
+        Log.i("deselecionar",selectedOptions.size.toString())
+        for (option in selectedOptions) {
+            option.isSelected = false
+            option.setBackgroundResource(R.drawable.unselected_view)
+        }
+        selectedOptions.clear()
     }
 
     private fun createPoll() {
@@ -96,9 +107,18 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
         }
     }
 
+    private fun sendOption(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            addOption()
+            return true
+        }
+        return false
+    }
+
     private fun initListeners(){
         button_addOption.setOnClickListener { addOption() }
         button_createPoll.setOnClickListener { createPoll() }
+        field_pollOption.setOnEditorActionListener { v, actionId, event -> sendOption(v, actionId, event) }
     }
 
     override fun navigateToVoting() {
