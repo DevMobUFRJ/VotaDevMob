@@ -3,6 +3,6 @@
 
     <!-- Poll screen -->
     <string name="poll_button">VOTAR</string>
-    <string name="poll_empty_title">Votação sem título</string>
-    <string name="poll_error_no_option_selected">Parece que nenhuma opcao foi selecionada</string>
+    <string name="poll_empty_title">- Votação sem título -</string>
+    <string name="poll_error_no_option_selected">Parece que nenhuma opção foi selecionada.</string>
 </resources>
