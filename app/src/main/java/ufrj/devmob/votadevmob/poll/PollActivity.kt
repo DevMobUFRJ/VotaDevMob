@@ -2,6 +2,7 @@ package ufrj.devmob.votadevmob.poll
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
@@ -27,20 +28,17 @@ class PollActivity : AppCompatActivity(), PollContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poll)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val poll = intent?.extras?.get(POLL_KEY) as Poll?
-                ?: Poll(
-                    id = 123456789,
-                    password = "senha",
-                    title = "Me vota",
-                    optionsList = listOf(
-                        "sim",
-                        "nao",
-                        "talvez"
-                    )
-                )
 
-        presenter = PollPresenter(this, poll)
+        if (poll == null) showMajorErrorMessage()
+        else presenter = PollPresenter(this, poll)
 
+        setListeners()
+    }
+
+    private fun setListeners() {
         pollRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             selectedRadioButton = findViewById(checkedId)
         }
@@ -49,29 +47,6 @@ class PollActivity : AppCompatActivity(), PollContract.View {
             if (selectedRadioButton == null) showToastError(getString(R.string.poll_error_no_option_selected))
             else presenter.registerVote(selectedRadioButton?.text.toString())
         }
-    }
-
-    override fun showLoading() {
-        pollTitle.visibility = View.GONE
-        pollRadioGroup.visibility = View.GONE
-        pollVoteButton.visibility = View.GONE
-        pollLoading.visibility = View.VISIBLE
-    }
-
-    override fun hideLoading() {
-        pollTitle.visibility = View.VISIBLE
-        pollRadioGroup.visibility = View.VISIBLE
-        pollVoteButton.visibility = View.VISIBLE
-        pollLoading.visibility = View.GONE
-    }
-
-    override fun showToastSuccess() {
-        // ir para a tela de resultado
-        Toast.makeText(this, "foi", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showToastError(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
     override fun setupPollLayout(title: String, options: List<String>) {
@@ -97,5 +72,46 @@ class PollActivity : AppCompatActivity(), PollContract.View {
                 textSize = getDimension(R.dimen.poll_option_text_size)
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                this.finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun showToastSuccess() {
+        // ir para a tela de resultado
+        Toast.makeText(this, "foi", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showToastError(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showMajorErrorMessage() {
+        pollTitle.visibility = View.GONE
+        pollRadioGroup.visibility = View.GONE
+        pollVoteButton.visibility = View.GONE
+        pollLoading.visibility = View.GONE
+        pollMajorErrorMessage.visibility = View.VISIBLE
+    }
+
+    override fun showLoading() {
+        pollTitle.visibility = View.GONE
+        pollRadioGroup.visibility = View.GONE
+        pollVoteButton.visibility = View.GONE
+        pollLoading.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        pollTitle.visibility = View.VISIBLE
+        pollRadioGroup.visibility = View.VISIBLE
+        pollVoteButton.visibility = View.VISIBLE
+        pollLoading.visibility = View.GONE
     }
 }

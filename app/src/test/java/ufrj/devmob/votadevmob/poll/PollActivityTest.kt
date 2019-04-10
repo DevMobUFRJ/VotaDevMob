@@ -1,5 +1,6 @@
 package ufrj.devmob.votadevmob.poll
 
+import android.content.Intent
 import android.view.View
 import android.widget.RadioButton
 import kotlinx.android.synthetic.main.activity_poll.*
@@ -10,6 +11,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import ufrj.devmob.votadevmob.model.Poll
 
 @RunWith(RobolectricTestRunner::class)
 class PollActivityTest{
@@ -40,7 +42,34 @@ class PollActivityTest{
     }
 
     @Test
+    fun `Should major error layout be visible`() {
+        activity.showMajorErrorMessage()
+        assertEquals(View.GONE, activity.pollLoading.visibility)
+        assertEquals(View.GONE, activity.pollTitle.visibility)
+        assertEquals(View.GONE, activity.pollRadioGroup.visibility)
+        assertEquals(View.GONE, activity.pollVoteButton.visibility)
+        assertEquals(View.VISIBLE, activity.pollMajorErrorMessage.visibility)
+    }
+
+    @Test
+    fun `Should show major error layout`() {
+        assertEquals(View.VISIBLE, activity.pollMajorErrorMessage.visibility)
+    }
+
+    @Test
     fun `Should create presenter`() {
+        val poll = Poll(
+            id = 123456789,
+            password = "senha",
+            title = "Me vota",
+            optionsList = listOf(
+                "sim",
+                "nao",
+                "talvez"
+            )
+        )
+        val intent = Intent().putExtra(PollActivity.POLL_KEY, poll)
+        activity = Robolectric.buildActivity(PollActivity::class.java, intent).create().get()
         assertNotNull(activity.presenter)
     }
 
@@ -72,7 +101,7 @@ class PollActivityTest{
     fun `Should setup layout empty`() {
         activity.pollRadioGroup.removeAllViews()
         activity.setupPollLayout("", listOf("sim", "nao", ""))
-        assertEquals("Votação sem título", activity.pollTitle.text)
+        assertEquals("- Votação sem título -", activity.pollTitle.text)
         assertEquals(2, activity.pollRadioGroup.childCount)
     }
 

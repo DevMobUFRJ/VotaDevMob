@@ -8,6 +8,7 @@ interface PollContract {
         fun hideLoading()
         fun showToastSuccess()
         fun showToastError(errorMessage: String)
+        fun showMajorErrorMessage()
     }
 
     interface Presenter {

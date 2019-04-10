@@ -5,4 +5,5 @@
     <string name="poll_button">VOTAR</string>
     <string name="poll_empty_title">- Votação sem título -</string>
     <string name="poll_error_no_option_selected">Parece que nenhuma opção foi selecionada.</string>
+    <string name="poll_error_major_message">Parece que houve uma falha ao procurar por esta votação. Por favor, volte e tente novamente\n:(</string>
 </resources>
