@@ -1,6 +1,7 @@
 package ufrj.devmob.votadevmob.poll
 
 import android.view.View
+import android.widget.RadioButton
 import kotlinx.android.synthetic.main.activity_poll.*
 import org.junit.Assert.*
 import org.junit.Before
@@ -8,6 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 
 @RunWith(RobolectricTestRunner::class)
 class PollActivityTest{
@@ -23,12 +25,18 @@ class PollActivityTest{
     fun `Should show loading layout`() {
         activity.showLoading()
         assertEquals(View.VISIBLE, activity.pollLoading.visibility)
+        assertEquals(View.GONE, activity.pollTitle.visibility)
+        assertEquals(View.GONE, activity.pollRadioGroup.visibility)
+        assertEquals(View.GONE, activity.pollVoteButton.visibility)
     }
 
     @Test
     fun `Should hide loading layout`() {
         activity.hideLoading()
         assertEquals(View.GONE, activity.pollLoading.visibility)
+        assertEquals(View.VISIBLE, activity.pollTitle.visibility)
+        assertEquals(View.VISIBLE, activity.pollRadioGroup.visibility)
+        assertEquals(View.VISIBLE, activity.pollVoteButton.visibility)
     }
 
     @Test
@@ -37,10 +45,14 @@ class PollActivityTest{
     }
 
     @Test
-    fun `Should set selectedRadioButton`() {
-        activity.setupPollLayout("", listOf(""))
-        activity.pollRadioGroup.check(View.generateViewId())
-        assertNotNull(activity.selectedRadioButton)
+    fun `Should be disable vote button`() {
+        assertFalse(activity.pollVoteButton.isEnabled)
+    }
+
+    @Test
+    fun `Should enable vote button`() {
+        activity.selectedRadioButton = RadioButton(RuntimeEnvironment.systemContext)
+        assertTrue(activity.pollVoteButton.isEnabled)
     }
 
     @Test
@@ -57,14 +69,22 @@ class PollActivityTest{
     }
 
     @Test
+    fun `Should setup layout empty`() {
+        activity.pollRadioGroup.removeAllViews()
+        activity.setupPollLayout("", listOf("sim", "nao", ""))
+        assertEquals("Votação sem título", activity.pollTitle.text)
+        assertEquals(2, activity.pollRadioGroup.childCount)
+    }
+
+    @Test
     fun `Should return configured RadioButton`() {
         val radioButton = activity.getConfiguredRadioButton("text")
         assertEquals("text", radioButton.text)
         assertNotNull(radioButton.id)
-        assertEquals(10, radioButton.paddingStart)
-        assertEquals(10, radioButton.paddingEnd)
-        assertEquals(5, radioButton.paddingTop)
-        assertEquals(5, radioButton.paddingBottom)
-        assertEquals(20f, radioButton.textSize)
+        assertEquals(8, radioButton.paddingStart)
+        assertEquals(8, radioButton.paddingEnd)
+        assertEquals(4, radioButton.paddingTop)
+        assertEquals(4, radioButton.paddingBottom)
+        assertEquals(5f, radioButton.textSize)
     }
 }
