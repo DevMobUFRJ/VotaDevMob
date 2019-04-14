@@ -5,15 +5,15 @@ import ufrj.devmob.votadevmob.newpoll.model.NewPollModel
 
 class NewPollPresenterImpl : NewPollPresenter{
 
-    val options = mutableMapOf<String,Int>()
+    val options = mutableListOf<String>()
 
     override fun addOptionToMap(option: String){
-        options.put(option, 0)
+        options.add(option)
     }
 
-    override fun mountPollDocument(title: String, password: String, options: Map<String, Int>){
+    override fun mountPollDocument(password: String, title: String, options: List<String>){
 
-        val poll = PollDocument(title, password, options)
+        val poll = PollDocument(null, password, title, options)
 
         val newPollModel = NewPollModel()
         newPollModel.createNewPoll(poll)

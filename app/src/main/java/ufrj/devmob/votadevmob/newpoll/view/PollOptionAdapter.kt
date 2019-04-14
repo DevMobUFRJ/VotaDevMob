@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.card_poll_option.view.*
 import ufrj.devmob.votadevmob.R
 
-class PollOptionAdapter (private val options: Map<String, Int>, private val clickListener: (View) -> Unit, private val context: Context): RecyclerView.Adapter<ViewHolder>(){
+class PollOptionAdapter (private val options: List<String>, private val clickListener: (View) -> Unit, private val context: Context): RecyclerView.Adapter<ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_poll_option, parent, false))
@@ -19,7 +19,7 @@ class PollOptionAdapter (private val options: Map<String, Int>, private val clic
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(options.keys.elementAt(position), clickListener)
+        holder.bind(options[position], clickListener)
     }
 }
 

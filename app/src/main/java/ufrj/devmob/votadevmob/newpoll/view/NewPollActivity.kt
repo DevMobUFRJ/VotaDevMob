@@ -22,7 +22,7 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
         setContentView(R.layout.activity_new_poll)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
-        options_recyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
+        options_recyclerView.layoutManager = GridLayoutManager(this.applicationContext, 2)
         options_recyclerView.adapter = PollOptionAdapter(newPollPresenter.options, { optionItem: View -> optionItemSelected(optionItem) }, applicationContext)
         initListeners()
     }
@@ -60,7 +60,7 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
         }
     }
 
-    private fun addOption () {
+    private fun addOption() {
         if (field_pollOption.isBlank()) {
             applicationContext.toast("Digite uma opção")
         } else {
@@ -101,7 +101,7 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
                 val title = field_pollTitle.fieldToString()
                 val password = field_pollPassword.fieldToString()
 
-                newPollPresenter.mountPollDocument(title, password, options)
+                newPollPresenter.mountPollDocument(password, title, options)
                 navigateToVoting()
             }
         }
@@ -122,7 +122,7 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
     }
 
     override fun navigateToVoting() {
-        val isMultiple = toggle_answers.isChecked
+        //val isMultiple = toggle_answers.isChecked
         Log.i("Called", "to vote")
         // TODO Start voting activity
         // val intent = Intent(this, VotingActivity::class.java)
