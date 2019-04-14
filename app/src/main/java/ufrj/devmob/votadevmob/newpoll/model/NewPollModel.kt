@@ -14,13 +14,6 @@ class NewPollModel {
                 .add(poll)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val documentId = task.result?.id
-                        for (option in poll.optionsList.orEmpty()) {
-                            database.collection("Polls")
-                                .document(documentId.toString())
-                                .collection(option)
-                                .add(mapOf("id" to 0))
-                        }
                         Log.i("Result", "Poll was created successfully")
                     } else {
                         Log.i("Result", "Poll was not created")
@@ -34,12 +27,6 @@ class NewPollModel {
                 .set(poll)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        for (option in poll.optionsList.orEmpty()) {
-                            database.collection("Polls")
-                                .document(id)
-                                .collection(option)
-                                .add(mapOf("id" to 0))
-                        }
                         Log.i("Result", "Poll was created successfully")
                     } else {
                         Log.i("Result", "Poll was not created")
