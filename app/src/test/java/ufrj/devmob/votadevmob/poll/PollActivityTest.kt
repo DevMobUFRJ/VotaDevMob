@@ -3,7 +3,6 @@ package ufrj.devmob.votadevmob.poll
 import android.content.Intent
 import android.view.View
 import android.widget.RadioButton
-import kotlinx.android.synthetic.main.activity_poll.*
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -11,7 +10,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import ufrj.devmob.votadevmob.core.activities.BasePollingActivity
 import ufrj.devmob.votadevmob.core.model.Poll
 
 @RunWith(RobolectricTestRunner::class)
