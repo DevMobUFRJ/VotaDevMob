@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="poll_option_padding_top">4dp</dimen>
+    <dimen name="poll_option_padding_start">8dp</dimen>
+
+    <dimen name="poll_option_text_size">5sp</dimen>
+
+</resources>
