@@ -1,7 +1,7 @@
 package ufrj.devmob.votadevmob.poll
 
 import ufrj.devmob.votadevmob.Callback
-import ufrj.devmob.votadevmob.model.Poll
+import ufrj.devmob.votadevmob.core.model.Poll
 import java.lang.Exception
 
 class PollPresenter(val view: PollContract.View, private val currentPoll: Poll) : PollContract.Presenter {

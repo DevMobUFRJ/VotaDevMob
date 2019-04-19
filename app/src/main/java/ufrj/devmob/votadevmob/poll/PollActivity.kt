@@ -1,16 +1,16 @@
 package ufrj.devmob.votadevmob.poll
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_poll.*
 import ufrj.devmob.votadevmob.R
-import ufrj.devmob.votadevmob.model.Poll
+import ufrj.devmob.votadevmob.core.activities.BasePollingActivity
+import ufrj.devmob.votadevmob.core.model.Poll
 
-class PollActivity : AppCompatActivity(), PollContract.View {
+class PollActivity : BasePollingActivity(), PollContract.View {
 
     internal lateinit var presenter: PollContract.Presenter
 
@@ -20,22 +20,15 @@ class PollActivity : AppCompatActivity(), PollContract.View {
             pollVoteButton.run { if (!isEnabled) isEnabled = true }
         }
 
-    companion object {
-        const val POLL_KEY = "current_poll"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poll)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val poll = intent?.extras?.get(POLL_KEY) as Poll?
-
-        if (poll == null) showMajorErrorMessage()
-        else presenter = PollPresenter(this, poll)
-
         setListeners()
+    }
+
+    override fun createPresenter(poll: Poll) {
+        presenter = PollPresenter(this, poll)
     }
 
     private fun setListeners() {

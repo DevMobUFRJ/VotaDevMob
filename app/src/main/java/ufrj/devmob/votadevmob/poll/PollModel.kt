@@ -2,7 +2,7 @@ package ufrj.devmob.votadevmob.poll
 
 import com.google.firebase.firestore.FirebaseFirestore
 import ufrj.devmob.votadevmob.Callback
-import ufrj.devmob.votadevmob.model.Vote
+import ufrj.devmob.votadevmob.core.model.Vote
 
 class PollModel {
 
