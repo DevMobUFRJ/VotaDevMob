@@ -81,17 +81,19 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
     }
 
     override fun showMajorErrorMessage() {
-        Toast.makeText(this, getString(R.string.result_error_major_message), Toast.LENGTH_SHORT).show()
+        resultContent.visibility = View.GONE
+        resultLoading.visibility = View.GONE
+        resultMajorErrorMessage.visibility = View.VISIBLE
     }
 
     override fun showLoading() {
-        content.visibility = View.GONE
-        pollResultLoading.visibility = View.VISIBLE
+        resultContent.visibility = View.GONE
+        resultLoading.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        content.visibility = View.VISIBLE
-        pollResultLoading.visibility = View.GONE
+        resultContent.visibility = View.VISIBLE
+        resultLoading.visibility = View.GONE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
