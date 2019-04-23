@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_poll_result.*
 import ufrj.devmob.votadevmob.R
 import ufrj.devmob.votadevmob.core.model.Poll
@@ -17,6 +21,11 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
         const val POLL_KEY = "current_poll"
     }
 
+    // chart variables
+    private var chartEntries = emptyList<PieEntry>()
+    private var chartDataSet = PieDataSet(chartEntries, "")
+    private var chartData = PieData(chartDataSet)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poll_result)
@@ -26,8 +35,63 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
 //        val poll = intent?.extras?.get(POLL_KEY) as Poll?
         val poll = Poll(id = 123456789, optionsList = listOf("sim", "nao", "talvez"))
 
-        if (poll == null) showMajorErrorMessage()
-        else presenter = PollResultPresenter(this, poll)
+        if (poll == null) showMajorErrorMessage() else presenter = PollResultPresenter(this, poll)
+
+        pieChart.run {
+            isHighlightPerTapEnabled = false
+            description.isEnabled = false
+            legend.isEnabled = false
+            setDrawEntryLabels(false)
+        }
+    }
+
+    override fun showResult(result: Map<String, Int>) {
+        resultValue.text = getMostVotedOptionText(result)
+        resultTotalVotesValue.text = result.values.sum().toString()
+
+        // chart setup
+        chartEntries = result.map { PieEntry(it.value.toFloat(), it.key) }
+
+        chartDataSet = PieDataSet(chartEntries, "").apply {
+            sliceSpace = 5f
+            ColorTemplate.JOYFUL_COLORS.forEach { colors.add(it) }
+        }
+
+        pieChart.data = chartData.apply {
+            dataSet = chartDataSet
+            setValueFormatter(PollResultValueFormatter())
+            setValueTextSize(15f)
+        }
+
+        pieChart.invalidate()
+    }
+
+    internal fun getMostVotedOptionText(result: Map<String, Int>): String {
+        val sortedResult= result.toList().sortedBy{ it.second }
+        val mostVotedOption = sortedResult.last()
+        val isDraw = sortedResult.count { it.second == mostVotedOption.second } > 1
+        return if (isDraw)
+            getString(R.string.result_draw)
+        else
+            getString(R.string.result_most_voted_option_value, mostVotedOption.first, mostVotedOption.second)
+    }
+
+    override fun showError(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showMajorErrorMessage() {
+        Toast.makeText(this, getString(R.string.result_error_major_message), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showLoading() {
+        content.visibility = View.GONE
+        pollResultLoading.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        content.visibility = View.VISIBLE
+        pollResultLoading.visibility = View.GONE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -38,27 +102,5 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun showResult(result: Map<String, Int>) {
-        resulttxt.text = result.toString()
-    }
-
-    override fun showError(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showMajorErrorMessage() {
-        Toast.makeText(this, "Major error", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showLoading() {
-        resulttxt.visibility = View.GONE
-        pollResultLoading.visibility = View.VISIBLE
-    }
-
-    override fun hideLoading() {
-        resulttxt.visibility = View.VISIBLE
-        pollResultLoading.visibility = View.GONE
     }
 }
