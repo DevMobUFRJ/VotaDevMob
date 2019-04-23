@@ -17,18 +17,13 @@ class PollResultModel {
         firestore.collection(POLLS_KEY_ADDRESS)
             .document(pollId.toString())
             .collection(currentOption)
-            .addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
-                if (e != null) {
-                    callback.onError(e)
+            .addSnapshotListener(EventListener<QuerySnapshot> { value, exception ->
+                if (exception != null) {
+                    callback.onError(exception)
                     return@EventListener
                 }
                 callback.onSuccess(value?.size() ?: 0)
             }
         )
-//            .document(pollId.toString())
-//            .collection(currentOption)
-//            .get()
-//            .addOnSuccessListener { callback.onSuccess(it.size()) }
-//            .addOnFailureListener { callback.onError(it) }
     }
 }

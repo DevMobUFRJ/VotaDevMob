@@ -22,10 +22,8 @@ class PollResultPresenter(val view: PollResultContract.View, private val current
                                         callback = object : Callback<Int> {
                     override fun onSuccess(result: Int) {
                         currentResult[option] = result
-//                        if (hasAllResults()) {
-                            view.hideLoading()
-                            view.showResult(currentResult)
-//                        }
+                        view.hideLoading()
+                        view.showResult(currentResult)
                     }
 
                     override fun onError(exception: Exception) {
@@ -34,6 +32,4 @@ class PollResultPresenter(val view: PollResultContract.View, private val current
                 })
         }
     }
-
-//    private fun hasAllResults() = currentResult.size == currentPoll.optionsList?.size
 }
