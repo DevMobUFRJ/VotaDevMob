@@ -86,9 +86,7 @@ class PollResultActivityTest{
 
         activity.showResult(result)
         assertEquals("sim (4 votos)", activity.resultValue.text)
-        assertEquals("7 votos", activity.resultValue.text)
-        assertEquals(listOf(PieEntry(4f, "sim"), PieEntry(3f, "nao")), activity.chartEntries)
+        assertEquals("7 votos", activity.resultTotalVotesValue.text)
         assertEquals(5f, activity.chartDataSet.sliceSpace)
-        assertEquals(ColorTemplate.JOYFUL_COLORS.toList(), activity.chartDataSet.colors)
     }
 }
