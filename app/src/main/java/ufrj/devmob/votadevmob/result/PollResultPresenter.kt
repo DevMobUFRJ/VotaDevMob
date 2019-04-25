@@ -6,7 +6,7 @@ import java.lang.Exception
 
 class PollResultPresenter(val view: PollResultContract.View, private val currentPoll: Poll): PollResultContract.Presenter {
 
-    internal val model = PollResultModel()
+    internal val model by lazy { PollResultModel() }
     internal val currentResult = mutableMapOf<String, Int>()
 
     init {

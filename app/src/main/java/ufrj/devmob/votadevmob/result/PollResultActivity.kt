@@ -15,15 +15,15 @@ import ufrj.devmob.votadevmob.core.model.Poll
 
 class PollResultActivity : AppCompatActivity(), PollResultContract.View {
 
-    internal lateinit var presenter: PollResultContract.Presenter
+    private lateinit var presenter: PollResultContract.Presenter
 
     companion object {
         const val POLL_KEY = "current_poll"
     }
 
     // chart variables
-    private var chartEntries = emptyList<PieEntry>()
-    private var chartDataSet = PieDataSet(chartEntries, "")
+    internal var chartEntries = emptyList<PieEntry>()
+    internal var chartDataSet = PieDataSet(chartEntries, "")
     private var chartData = PieData(chartDataSet)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +32,8 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-//        val poll = intent?.extras?.get(POLL_KEY) as Poll?
-        val poll = Poll(id = 123456789, optionsList = listOf("sim", "nao", "talvez"))
+        val poll = intent?.extras?.get(POLL_KEY) as Poll?
+//        val poll = Poll(id = 123456789, optionsList = listOf("sim", "nao", "talvez"))
 
         if (poll == null) showMajorErrorMessage() else presenter = PollResultPresenter(this, poll)
 
@@ -47,7 +47,7 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
 
     override fun showResult(result: Map<String, Int>) {
         resultValue.text = getMostVotedOptionText(result)
-        resultTotalVotesValue.text = result.values.sum().toString()
+        resultTotalVotesValue.text = getString(R.string.result_total_votes_number_value, result.values.sum())
 
         // chart setup
         chartEntries = result.map { PieEntry(it.value.toFloat(), it.key) }
