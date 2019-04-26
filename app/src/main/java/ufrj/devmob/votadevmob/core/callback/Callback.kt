@@ -1,4 +1,4 @@
-package ufrj.devmob.votadevmob
+package ufrj.devmob.votadevmob.core.callback
 
 import java.lang.Exception
 

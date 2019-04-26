@@ -1,6 +1,6 @@
 package ufrj.devmob.votadevmob.result
 
-import ufrj.devmob.votadevmob.Callback
+import ufrj.devmob.votadevmob.core.callback.Callback
 import ufrj.devmob.votadevmob.core.model.Poll
 import java.lang.Exception
 

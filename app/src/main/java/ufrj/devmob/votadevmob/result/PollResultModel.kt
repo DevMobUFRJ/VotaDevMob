@@ -3,7 +3,7 @@ package ufrj.devmob.votadevmob.result
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import ufrj.devmob.votadevmob.Callback
+import ufrj.devmob.votadevmob.core.callback.Callback
 
 class PollResultModel {
 
