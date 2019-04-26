@@ -1,8 +1,6 @@
 package ufrj.devmob.votadevmob.result
 
 import android.view.View
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_poll_result.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
