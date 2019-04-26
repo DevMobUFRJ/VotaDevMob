@@ -33,7 +33,6 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val poll = intent?.extras?.get(POLL_KEY) as Poll?
-//        val poll = Poll(id = 123456789, optionsList = listOf("sim", "nao", "talvez"))
 
         if (poll == null) showMajorErrorMessage() else presenter = PollResultPresenter(this, poll)
 
