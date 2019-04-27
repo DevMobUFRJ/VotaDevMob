@@ -1,5 +1,6 @@
 package ufrj.devmob.votadevmob.poll
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_poll.*
 import ufrj.devmob.votadevmob.R
 import ufrj.devmob.votadevmob.core.model.Poll
+import ufrj.devmob.votadevmob.result.PollResultActivity
 
 class PollActivity : AppCompatActivity(), PollContract.View {
 
@@ -27,6 +29,8 @@ class PollActivity : AppCompatActivity(), PollContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poll)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val poll = intent?.extras?.get(POLL_KEY) as Poll?
         if (poll == null) showMajorErrorMessage() else presenter = PollPresenter(this, poll)
@@ -80,9 +84,10 @@ class PollActivity : AppCompatActivity(), PollContract.View {
         }
     }
 
-    override fun showToastSuccess() {
-        // ir para a tela de resultado
-        Toast.makeText(this, "foi", Toast.LENGTH_SHORT).show()
+    override fun goToResultActivity(poll: Poll) {
+        startActivity(Intent(this, PollResultActivity::class.java)
+            .putExtra(PollResultActivity.POLL_KEY, poll))
+        finish()
     }
 
     override fun showToastError(errorMessage: String) {

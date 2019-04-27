@@ -17,7 +17,7 @@ class PollPresenter(val view: PollContract.View, private val currentPoll: Poll) 
         model.vote(currentPoll.id ?: 0, chosenOption, object : Callback<Unit> {
             override fun onSuccess(result: Unit) {
                 view.hideLoading()
-                view.showToastSuccess()
+                view.goToResultActivity(currentPoll)
             }
             override fun onError(exception: Exception) {
                 view.hideLoading()
