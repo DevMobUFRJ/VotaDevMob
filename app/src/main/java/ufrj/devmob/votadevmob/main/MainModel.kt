@@ -1,8 +1,9 @@
 package ufrj.devmob.votadevmob.main
 
 import com.google.firebase.firestore.FirebaseFirestore
-import ufrj.devmob.votadevmob.Callback
-import ufrj.devmob.votadevmob.model.Poll
+import ufrj.devmob.votadevmob.core.callback.Callback
+import ufrj.devmob.votadevmob.core.model.Poll
+import java.lang.Exception
 
 class MainModel {
 
@@ -12,12 +13,18 @@ class MainModel {
         const val POLLS_KEY_ADDRESS = "Polls"
     }
 
-    fun getPoll(pollId: String, password: String, callback: Callback) {
+    fun getPoll(pollId: String, callback: Callback<Poll>) {
         firestore.collection(POLLS_KEY_ADDRESS)
             .document(pollId)
             .get()
-            .addOnSuccessListener { callback.onSuccess(it.toObject(Poll::class.java)) }
+            .addOnSuccessListener {
+                val poll = it.toObject(Poll::class.java)
+
+                if (poll != null)
+                    callback.onSuccess(poll)
+                else
+                    callback.onError(Exception("falha no parse"))
+            }
             .addOnFailureListener { callback.onError(it) }
     }
-
 }
