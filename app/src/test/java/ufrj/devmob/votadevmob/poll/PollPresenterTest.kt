@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import ufrj.devmob.votadevmob.model.Poll
+import ufrj.devmob.votadevmob.core.model.Poll
 
 @RunWith(RobolectricTestRunner::class)
 class PollPresenterTest {

@@ -11,7 +11,8 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import ufrj.devmob.votadevmob.model.Poll
+import ufrj.devmob.votadevmob.core.model.Poll
+import ufrj.devmob.votadevmob.poll.PollActivity.Companion.POLL_KEY
 
 @RunWith(RobolectricTestRunner::class)
 class PollActivityTest{
@@ -68,7 +69,7 @@ class PollActivityTest{
                 "talvez"
             )
         )
-        val intent = Intent().putExtra(PollActivity.POLL_KEY, poll)
+        val intent = Intent().putExtra(POLL_KEY, poll)
         activity = Robolectric.buildActivity(PollActivity::class.java, intent).create().get()
         assertNotNull(activity.presenter)
     }
