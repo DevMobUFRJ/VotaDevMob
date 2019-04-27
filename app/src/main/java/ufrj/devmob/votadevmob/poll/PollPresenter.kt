@@ -1,7 +1,7 @@
 package ufrj.devmob.votadevmob.poll
 
-import ufrj.devmob.votadevmob.Callback
-import ufrj.devmob.votadevmob.model.Poll
+import ufrj.devmob.votadevmob.core.callback.Callback
+import ufrj.devmob.votadevmob.core.model.Poll
 import java.lang.Exception
 
 class PollPresenter(val view: PollContract.View, private val currentPoll: Poll) : PollContract.Presenter {
@@ -14,8 +14,8 @@ class PollPresenter(val view: PollContract.View, private val currentPoll: Poll) 
 
     override fun registerVote(chosenOption: String) {
         view.showLoading()
-        model.vote(currentPoll.id ?: 0, chosenOption, object : Callback {
-            override fun onSuccess() {
+        model.vote(currentPoll.id ?: 0, chosenOption, object : Callback<Unit> {
+            override fun onSuccess(result: Unit) {
                 view.hideLoading()
                 view.showToastSuccess()
             }

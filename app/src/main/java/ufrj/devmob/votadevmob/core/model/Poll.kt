@@ -1,4 +1,4 @@
-package ufrj.devmob.votadevmob.model
+package ufrj.devmob.votadevmob.core.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
