@@ -22,17 +22,13 @@ class PollActivity : AppCompatActivity(), PollContract.View {
             pollVoteButton.run { if (!isEnabled) isEnabled = true }
         }
 
-    companion object {
-        const val POLL_KEY = "current_poll"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poll)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val poll = intent?.extras?.get(POLL_KEY) as Poll?
+        val poll = intent?.extras?.get(getString(R.string.poll_intent_key)) as Poll?
         if (poll == null) showMajorErrorMessage() else presenter = PollPresenter(this, poll)
 
         setListeners()
@@ -86,7 +82,7 @@ class PollActivity : AppCompatActivity(), PollContract.View {
 
     override fun goToResultActivity(poll: Poll) {
         startActivity(Intent(this, PollResultActivity::class.java)
-            .putExtra(PollResultActivity.POLL_KEY, poll))
+            .putExtra(getString(R.string.poll_intent_key), poll))
         finish()
     }
 

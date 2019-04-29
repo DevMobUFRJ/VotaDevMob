@@ -17,10 +17,6 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
 
     private lateinit var presenter: PollResultContract.Presenter
 
-    companion object {
-        const val POLL_KEY = "current_poll"
-    }
-
     // chart variables
     internal var chartEntries = emptyList<PieEntry>()
     internal var chartDataSet = PieDataSet(chartEntries, "")
@@ -32,7 +28,7 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val poll = intent?.extras?.get(POLL_KEY) as Poll?
+        val poll = intent?.extras?.get(getString(R.string.poll_intent_key)) as Poll?
 
         if (poll == null) showMajorErrorMessage() else presenter = PollResultPresenter(this, poll)
 

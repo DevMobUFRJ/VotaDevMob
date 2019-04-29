@@ -1,17 +1,10 @@
 package ufrj.devmob.votadevmob.main
 
-import com.google.firebase.firestore.FirebaseFirestore
+import ufrj.devmob.votadevmob.core.base.BaseModel
 import ufrj.devmob.votadevmob.core.callback.Callback
 import ufrj.devmob.votadevmob.core.model.Poll
-import java.lang.Exception
 
-class MainModel {
-
-    private val firestore by lazy { FirebaseFirestore.getInstance() }
-
-    companion object {
-        const val POLLS_KEY_ADDRESS = "Polls"
-    }
+class MainModel : BaseModel() {
 
     fun getPoll(pollId: String, callback: Callback<Poll>) {
         firestore.collection(POLLS_KEY_ADDRESS)

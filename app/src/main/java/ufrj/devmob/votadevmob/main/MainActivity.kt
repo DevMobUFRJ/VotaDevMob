@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun goToActivity(activity: Class<out AppCompatActivity>, poll: Poll) {
-        startActivity(Intent(this, activity).putExtra("current_poll", poll))
+        startActivity(Intent(this, activity).putExtra(getString(R.string.poll_intent_key), poll))
     }
 
     override fun showLoading() {

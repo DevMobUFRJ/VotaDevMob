@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">VotaDevMob</string>
 
+    <!-- Intent key for poll -->
+    <string name="poll_intent_key">current_poll</string>
+
     <!-- Poll screen -->
     <string name="poll_button">VOTAR</string>
     <string name="poll_empty_title">- Votação sem título -</string>
