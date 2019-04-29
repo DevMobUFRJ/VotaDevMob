@@ -16,7 +16,7 @@ class MainModel : BaseModel() {
                 if (poll != null)
                     callback.onSuccess(poll)
                 else
-                    callback.onError(Exception("falha no parse"))
+                    callback.onError(Exception("Ops, parece que esta votação não existe :("))
             }
             .addOnFailureListener { callback.onError(it) }
     }
