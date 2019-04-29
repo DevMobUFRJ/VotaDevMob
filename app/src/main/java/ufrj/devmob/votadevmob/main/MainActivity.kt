@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         presenter = MainPresenter(this)
 
-        createPollButton.setOnClickListener { showToastError("Em breve") }
+        createPollButton.setOnClickListener { showToastError(getString(R.string.main_create_poll_button)) }
         voteButton.setOnClickListener { showInputDialog(PollActivity::class.java) }
         resultPollButton.setOnClickListener { showInputDialog(PollResultActivity::class.java) }
     }
@@ -32,13 +32,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         val view = layoutInflater.inflate(R.layout.dialog_main_input, null)
         AlertDialog.Builder(this).run {
             setView(view)
-            setTitle("Qual votação?")
-            setPositiveButton("OK") { _, _ ->
+            setTitle(getString(R.string.main_dialog_title))
+            setPositiveButton(getString(android.R.string.ok)) { _, _ ->
                 presenter.getPollForActivity(id = view.idEditText.text.toString(),
                     password = view.passwordEditText.text.toString(),
                     activity = activity)
             }
-            setNegativeButton("Cancel") { _, _ -> }
+            setNegativeButton(getString(android.R.string.cancel)) { _, _ -> }
             show()
         }
     }
@@ -59,5 +59,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun showToastError(errorMessage: String) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showIncorrectPasswordError() {
+        showToastError(getString(R.string.main_error_password))
     }
 }

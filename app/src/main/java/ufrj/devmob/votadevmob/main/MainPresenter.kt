@@ -17,7 +17,7 @@ class MainPresenter(private val view: MainContract.View) : MainContract.Presente
                 if (result.password == password)
                     view.goToActivity(activity, result)
                 else
-                    view.showToastError("Incorrect Password")
+                    view.showIncorrectPasswordError()
             }
             override fun onError(exception: Exception) {
                 view.hideLoading()

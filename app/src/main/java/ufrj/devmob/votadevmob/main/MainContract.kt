@@ -10,6 +10,7 @@ interface MainContract {
         fun showLoading()
         fun hideLoading()
         fun showToastError(errorMessage: String)
+        fun showIncorrectPasswordError()
     }
 
     interface Presenter {
