@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         resultPollButton.setOnClickListener { showInputDialog(PollResultActivity::class.java) }
     }
 
-    private fun showInputDialog(activity: Class<out AppCompatActivity>) {
+    internal fun showInputDialog(activity: Class<out AppCompatActivity>) {
         val view = layoutInflater.inflate(R.layout.dialog_main_input, null)
         AlertDialog.Builder(this).run {
             setView(view)
