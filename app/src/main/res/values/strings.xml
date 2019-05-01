@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">VotaDevMob</string>
+  
+    <!-- Poll screen -->
     <string name="poll_title">Título</string>
     <string name="poll_create">Criar votação</string>
     <string name="poll_option">Digite uma opção</string>
@@ -8,4 +10,23 @@
     <string name="multiple_answers">Múltiplas respostas</string>
     <string name="poll_password">Senha</string>
     <string name="add_button">Adicionar</string>
+  
+    <!-- Poll screen -->
+    <string name="poll_button">VOTAR</string>
+    <string name="poll_empty_title">- Votação sem título -</string>
+    <string name="poll_error_no_option_selected">Parece que nenhuma opção foi selecionada.</string>
+    <string name="poll_error_major_message">Parece que houve uma falha ao procurar por esta votação. Por favor, volte e
+        tente novamente\n:(
+    </string>
+
+    <!-- Poll Result Screen -->
+    <string name="result_most_voted_option">Opção mais votada:</string>
+    <string name="result_most_voted_option_value">%s (%d votos)</string>
+    <string name="result_total_votes_number">Quantidade de votos:</string>
+    <string name="result_total_votes_number_value">%d votos</string>
+    <string name="result_draw">Empate</string>
+    <string name="result_error_major_message">Parece que houve uma falha ao procurar por esta votação. Por favor, volte e
+        tente novamente\n:(
+    </string>
+  
 </resources>
