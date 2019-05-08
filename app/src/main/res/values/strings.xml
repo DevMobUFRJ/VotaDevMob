@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">VotaDevMob</string>
 
+    <!-- Intent key for poll -->
+    <string name="poll_intent_key">current_poll</string>
+
     <!-- Poll screen -->
     <string name="poll_button">VOTAR</string>
     <string name="poll_empty_title">- Votação sem título -</string>
@@ -18,5 +21,10 @@
     <string name="result_error_major_message">Parece que houve uma falha ao procurar por esta votação. Por favor, volte e
         tente novamente\n:(
     </string>
+
+    <!-- Main Screen -->
+    <string name="main_create_poll_button">"Em breve"</string>
+    <string name="main_dialog_title">Qual votação?</string>
+    <string name="main_error_password">Senha incorreta</string>
 
 </resources>

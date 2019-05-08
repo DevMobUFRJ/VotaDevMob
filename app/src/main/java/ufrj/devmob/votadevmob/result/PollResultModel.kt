@@ -3,15 +3,10 @@ package ufrj.devmob.votadevmob.result
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import ufrj.devmob.votadevmob.core.base.BaseModel
 import ufrj.devmob.votadevmob.core.callback.Callback
 
-class PollResultModel {
-
-    private val firestore by lazy { FirebaseFirestore.getInstance() }
-
-    companion object {
-        const val POLLS_KEY_ADDRESS = "Polls"
-    }
+class PollResultModel : BaseModel() {
 
     fun getOptionNumberOfVotes(pollId: Int, currentOption: String, callback: Callback<Int>) {
         firestore.collection(POLLS_KEY_ADDRESS)
