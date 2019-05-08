@@ -1,3 +1,19 @@
+buildscript {
+    ext.kotlin_version = '1.3.20'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.2.0'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -24,9 +40,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+<<<<<<< HEAD
     configurations.all {
         resolutionStrategy {
             force "com.android.support:design:28.0.0"
+=======
+    testOptions{
+        unitTests{
+            includeAndroidResources = true
+>>>>>>> Feature/cria-votacao
         }
     }
 }
@@ -40,13 +62,22 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-firestore:18.0.1'
+    implementation 'com.android.support:design:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+<<<<<<< HEAD
 
     implementation ('com.google.firebase:firebase-firestore:18.2.0', {
         exclude group: 'com.android.support', module: 'support-v4'
     })
+=======
+    implementation 'com.google.firebase:firebase-firestore:18.2.0'
+>>>>>>> Feature/cria-votacao
 
     testImplementation 'org.robolectric:robolectric:4.1'
     testImplementation "org.robolectric:shadows-multidex:4.1"
