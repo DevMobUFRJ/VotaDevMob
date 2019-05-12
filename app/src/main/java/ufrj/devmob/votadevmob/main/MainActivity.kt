@@ -8,8 +8,10 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_main_input.view.*
+import org.apache.commons.lang3.RandomStringUtils
 import ufrj.devmob.votadevmob.R
 import ufrj.devmob.votadevmob.core.model.Poll
+import ufrj.devmob.votadevmob.newpoll.NewPollActivity
 import ufrj.devmob.votadevmob.poll.PollActivity
 import ufrj.devmob.votadevmob.result.PollResultActivity
 
@@ -23,7 +25,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         presenter = MainPresenter(this)
 
-        createPollButton.setOnClickListener { showToastError(getString(R.string.main_create_poll_button)) }
+        //TODO criar id random
+        createPollButton.setOnClickListener { generateRandomId() }
         voteButton.setOnClickListener { showInputDialog(PollActivity::class.java) }
         resultPollButton.setOnClickListener { showInputDialog(PollResultActivity::class.java) }
     }
@@ -41,6 +44,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             setNegativeButton(getString(android.R.string.cancel)) { _, _ -> }
             show()
         }
+    }
+
+    private fun generateRandomId(){
+        val id = RandomStringUtils.randomNumeric(7).toInt()
+        val poll = Poll(id)
+        goToActivity(NewPollActivity::class.java, poll)
     }
 
     override fun goToActivity(activity: Class<out AppCompatActivity>, poll: Poll) {

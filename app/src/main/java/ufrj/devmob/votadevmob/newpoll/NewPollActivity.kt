@@ -1,10 +1,10 @@
-package ufrj.devmob.votadevmob.newpoll.view
+package ufrj.devmob.votadevmob.newpoll
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -12,29 +12,47 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_new_poll.*
+import kotlinx.android.synthetic.main.activity_new_poll.pollMajorErrorMessage
 import kotlinx.android.synthetic.main.card_poll_option.view.*
 import ufrj.devmob.votadevmob.R
-import ufrj.devmob.votadevmob.newpoll.presenter.NewPollPresenterImpl
+import ufrj.devmob.votadevmob.core.model.Poll
+import ufrj.devmob.votadevmob.poll.PollActivity
 
-class NewPollActivity : AppCompatActivity(), NewPollView {
+class NewPollActivity : AppCompatActivity(), NewPollContract.View {
+
+    internal lateinit var presenter: NewPollContract.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_poll)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
+        presenter = NewPollPresenter(this)
+
+        val poll = intent?.extras?.get(getString(R.string.poll_intent_key)) as Poll?
+        text_pollKey.text = poll?.id.toString()
+
         options_recyclerView.layoutManager = GridLayoutManager(this.applicationContext, 2)
-        options_recyclerView.adapter = PollOptionAdapter(newPollPresenter.options, { optionItem: View -> optionItemSelected(optionItem) }, applicationContext)
-        initListeners()
+        options_recyclerView.adapter = PollOptionAdapter(
+            presenter.options,
+            { optionItem: View -> optionItemSelected(optionItem) },
+            applicationContext
+        )
+        setListeners()
+    }
+
+    private fun setListeners(){
+        button_addOption.setOnClickListener { addOption() }
+        button_createPoll.setOnClickListener { createPoll() }
+        field_pollOption.setOnEditorActionListener { v, actionId, event -> sendOption(v, actionId, event) }
     }
 
     private val selectedOptions = mutableSetOf<View>()
-    private val newPollPresenter = NewPollPresenterImpl()
     private val actionModeCallback = ActionModeCallback(this)
 
     // Extension functions
     private fun EditText.fieldToString() = this.text.toString()
     private fun EditText.isBlank() = this.text.toString().isBlank()
-    private fun Context.toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     private fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -62,19 +80,18 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
 
     private fun addOption() {
         if (field_pollOption.isBlank()) {
-            applicationContext.toast("Digite uma opção")
+            showToastError("Digite uma opção")
         } else {
             val option = field_pollOption.fieldToString()
-            newPollPresenter.addOptionToMap(option)
+            presenter.addOptionToMap(option)
             field_pollOption.text?.clear()
             applicationContext.hideKeyboard(button_addOption)
         }
     }
 
     fun deleteSelectedOptions() {
-        Log.i("deletado", selectedOptions.toString())
         for (option in selectedOptions) {
-            newPollPresenter.options.remove(option.text_card_poll.text.toString())
+            presenter.options.remove(option.text_card_poll.text.toString())
             option.isSelected = false
             option.setBackgroundResource(R.drawable.unselected_view)
         }
@@ -83,28 +100,11 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
     }
 
     fun unselectAllOptions() {
-        Log.i("deselecionar",selectedOptions.size.toString())
         for (option in selectedOptions) {
             option.isSelected = false
             option.setBackgroundResource(R.drawable.unselected_view)
         }
         selectedOptions.clear()
-    }
-
-    private fun createPoll() {
-        val options = newPollPresenter.options
-        when {
-            field_pollTitle.isBlank() -> applicationContext.toast("Digite um título")
-            options.size < 2 -> applicationContext.toast("A votação deve ter duas ou mais opções")
-
-            else -> {
-                val title = field_pollTitle.fieldToString()
-                val password = field_pollPassword.fieldToString()
-
-                newPollPresenter.mountPollDocument(password, title, options)
-                navigateToVoting()
-            }
-        }
     }
 
     private fun sendOption(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -115,17 +115,40 @@ class NewPollActivity : AppCompatActivity(), NewPollView {
         return false
     }
 
-    private fun initListeners(){
-        button_addOption.setOnClickListener { addOption() }
-        button_createPoll.setOnClickListener { createPoll() }
-        field_pollOption.setOnEditorActionListener { v, actionId, event -> sendOption(v, actionId, event) }
+    override fun createPoll() {
+        val options = presenter.options
+        when {
+            field_pollTitle.isBlank() -> showToastError("Digite um título")
+            options.size < 2 -> showToastError("A votação deve ter duas ou mais opções")
+
+            else -> {
+                val title = field_pollTitle.fieldToString()
+                val password = field_pollPassword.fieldToString()
+
+                presenter.mountPollDocument(text_pollKey.text.toString().toInt(), password, title, options)
+            }
+        }
     }
 
-    override fun navigateToVoting() {
-        //val isMultiple = toggle_answers.isChecked
-        Log.i("Called", "to vote")
-        // TODO Start voting activity
-        // val intent = Intent(this, VotingActivity::class.java)
-        // startActivity(intent)
+    override fun goToVoteActivity(poll: Poll) {
+        startActivity(
+            Intent(this, PollActivity::class.java)
+            .putExtra(getString(R.string.poll_intent_key), poll))
+        finish()
+    }
+
+    override fun showMajorErrorMessage() {
+        text_pollKey.visibility = View.GONE
+        field_pollTitle.visibility = View.GONE
+        field_pollPassword.visibility = View.GONE
+        field_pollOption.visibility = View.GONE
+        button_addOption.visibility = View.GONE
+        button_createPoll.visibility = View.GONE
+        options_recyclerView.visibility = View.GONE
+        this.pollMajorErrorMessage.visibility = View.VISIBLE
+    }
+
+    override fun showToastError(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 }

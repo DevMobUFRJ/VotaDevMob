@@ -1,4 +1,4 @@
-package ufrj.devmob.votadevmob.newpoll.view
+package ufrj.devmob.votadevmob.newpoll
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -11,7 +11,13 @@ import ufrj.devmob.votadevmob.R
 class PollOptionAdapter (private val options: List<String>, private val clickListener: (View) -> Unit, private val context: Context): RecyclerView.Adapter<ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_poll_option, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(context).inflate(
+                R.layout.card_poll_option,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {

@@ -1,4 +1,4 @@
-package ufrj.devmob.votadevmob.newpoll.view
+package ufrj.devmob.votadevmob.newpoll
 
 import android.util.Log
 import android.view.ActionMode
