@@ -6,7 +6,7 @@ import java.lang.Exception
 
 class NewPollPresenter(val view: NewPollContract.View) : NewPollContract.Presenter {
 
-    internal val model = NewPollModel()
+    internal val model by lazy { NewPollModel() }
     override val options = mutableListOf<String>()
 
     override fun addOptionToMap(option: String){
@@ -19,13 +19,13 @@ class NewPollPresenter(val view: NewPollContract.View) : NewPollContract.Present
 
         model.createNewPoll(poll = poll,  callback = object : Callback<Poll> {
             override fun onSuccess(result: Poll) {
-                view.goToVoteActivity(poll)
+                view.hideCreateButton()
+                view.showToast("Votação criada com sucesso!")
             }
 
             override fun onError(exception: Exception) {
-                view.showToastError(exception.toString())
+                view.showToast(exception.toString())
             }
         })
-        //newPollModel.createNewPollWithId("idunico", poll)
     }
 }

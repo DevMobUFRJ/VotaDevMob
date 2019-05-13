@@ -13,6 +13,8 @@
     <string name="multiple_answers">Múltiplas respostas</string>
     <string name="poll_password">Senha</string>
     <string name="add_button">Adicionar</string>
+    <string name="your_poll_id">ID da sua votação:\ </string>
+    <string name="creation_success">Votação criada com sucesso!</string>
   
     <!-- Poll screen -->
     <string name="poll_button">VOTAR</string>

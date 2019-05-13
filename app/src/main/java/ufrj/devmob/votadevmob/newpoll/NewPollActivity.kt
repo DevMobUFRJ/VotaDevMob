@@ -1,4 +1,5 @@
 package ufrj.devmob.votadevmob.newpoll
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -21,6 +22,7 @@ import ufrj.devmob.votadevmob.poll.PollActivity
 class NewPollActivity : AppCompatActivity(), NewPollContract.View {
 
     internal lateinit var presenter: NewPollContract.Presenter
+    internal lateinit var poll: Poll
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +30,6 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
         presenter = NewPollPresenter(this)
-
-        val poll = intent?.extras?.get(getString(R.string.poll_intent_key)) as Poll?
-        text_pollKey.text = poll?.id.toString()
 
         options_recyclerView.layoutManager = GridLayoutManager(this.applicationContext, 2)
         options_recyclerView.adapter = PollOptionAdapter(
@@ -45,6 +44,8 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
         button_addOption.setOnClickListener { addOption() }
         button_createPoll.setOnClickListener { createPoll() }
         field_pollOption.setOnEditorActionListener { v, actionId, event -> sendOption(v, actionId, event) }
+        button_vote.setOnClickListener { goToVoteActivity(PollActivity::class.java, poll) }
+        button_backMain.setOnClickListener { this.finish() }
     }
 
     private val selectedOptions = mutableSetOf<View>()
@@ -78,9 +79,9 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
         }
     }
 
-    private fun addOption() {
+    fun addOption() {
         if (field_pollOption.isBlank()) {
-            showToastError("Digite uma opção")
+            showToast("Digite uma opção")
         } else {
             val option = field_pollOption.fieldToString()
             presenter.addOptionToMap(option)
@@ -118,23 +119,32 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
     override fun createPoll() {
         val options = presenter.options
         when {
-            field_pollTitle.isBlank() -> showToastError("Digite um título")
-            options.size < 2 -> showToastError("A votação deve ter duas ou mais opções")
+            field_pollTitle.isBlank() -> showToast("Digite um título")
+            options.size < 2 -> showToast("A votação deve ter duas ou mais opções")
 
             else -> {
                 val title = field_pollTitle.fieldToString()
                 val password = field_pollPassword.fieldToString()
 
-                presenter.mountPollDocument(text_pollKey.text.toString().toInt(), password, title, options)
+                val id = (1..7).map { kotlin.random.Random.nextInt(10) }.joinToString("").toInt()
+                presenter.mountPollDocument(id, password, title, options)
+                text_pollKey.text = id.toString()
+                poll = Poll(id = id, password = password, title = title, optionsList = options)
             }
         }
     }
 
-    override fun goToVoteActivity(poll: Poll) {
+    override fun goToVoteActivity(activity: Class<out AppCompatActivity>, poll: Poll) {
         startActivity(
-            Intent(this, PollActivity::class.java)
+            Intent(this, activity)
             .putExtra(getString(R.string.poll_intent_key), poll))
         finish()
+    }
+
+    override fun hideCreateButton() {
+        button_createPoll.visibility = View.GONE
+        linear_voteId.visibility = View.VISIBLE
+        linear_backVote.visibility = View.VISIBLE
     }
 
     override fun showMajorErrorMessage() {
@@ -148,7 +158,7 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
         this.pollMajorErrorMessage.visibility = View.VISIBLE
     }
 
-    override fun showToastError(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+    override fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
