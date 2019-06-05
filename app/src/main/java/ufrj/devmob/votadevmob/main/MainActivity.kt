@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_main_input.view.*
 import ufrj.devmob.votadevmob.R
 import ufrj.devmob.votadevmob.core.model.Poll
+import ufrj.devmob.votadevmob.newpoll.NewPollActivity
 import ufrj.devmob.votadevmob.poll.PollActivity
 import ufrj.devmob.votadevmob.result.PollResultActivity
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         presenter = MainPresenter(this)
 
-        createPollButton.setOnClickListener { showToastError(getString(R.string.main_create_poll_button)) }
+        createPollButton.setOnClickListener { startActivity(Intent(this, NewPollActivity::class.java)) }
         voteButton.setOnClickListener { showInputDialog(PollActivity::class.java) }
         resultPollButton.setOnClickListener { showInputDialog(PollResultActivity::class.java) }
     }

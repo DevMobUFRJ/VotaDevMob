@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-                android:name=".newpoll.view.NewPollActivity"
+                android:name=".newpoll.NewPollActivity"
                 android:windowSoftInputMode="adjustPan"/>
 
         <activity android:name=".poll.PollActivity"/>
