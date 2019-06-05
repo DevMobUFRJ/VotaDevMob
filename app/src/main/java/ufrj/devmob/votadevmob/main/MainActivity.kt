@@ -24,8 +24,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         presenter = MainPresenter(this)
 
-        val poll = Poll()
-        createPollButton.setOnClickListener { goToActivity(NewPollActivity::class.java, poll) }
+        createPollButton.setOnClickListener { startActivity(Intent(this, NewPollActivity::class.java)) }
         voteButton.setOnClickListener { showInputDialog(PollActivity::class.java) }
         resultPollButton.setOnClickListener { showInputDialog(PollResultActivity::class.java) }
     }
