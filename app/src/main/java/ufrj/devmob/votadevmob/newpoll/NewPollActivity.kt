@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.card_poll_option.view.*
 import ufrj.devmob.votadevmob.R
 import ufrj.devmob.votadevmob.core.model.Poll
 import ufrj.devmob.votadevmob.poll.PollActivity
+import java.util.Random
 
 class NewPollActivity : AppCompatActivity(), NewPollContract.View {
 
@@ -126,7 +127,8 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
                 val title = field_pollTitle.fieldToString()
                 val password = field_pollPassword.fieldToString()
 
-                val id = (1..7).map { kotlin.random.Random.nextInt(10) }.joinToString("").toInt()
+                val random = Random()
+                val id = (1..7).map { random.nextInt(10) }.joinToString("").toInt()
                 presenter.mountPollDocument(id, password, title, options)
                 text_pollKey.text = id.toString()
                 poll = Poll(id = id, password = password, title = title, optionsList = options)
