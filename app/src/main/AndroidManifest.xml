@@ -23,13 +23,16 @@
 
         <activity
                 android:name=".newpoll.NewPollActivity"
+                android:label="@string/label_new_poll_screen"
                 android:windowSoftInputMode="adjustPan"/>
 
-        <activity android:name=".poll.PollActivity"/>
+        <activity
+                android:name=".poll.PollActivity"
+                android:label="@string/label_polling_screen"/>
 
         <activity
                 android:name=".result.PollResultActivity"
-                android:label="Resultado"/>
+                android:label="@string/label_poll_result_screen"/>
     </application>
 
 </manifest>

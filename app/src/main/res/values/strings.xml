@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">VotaDevMob</string>
+    <string name="app_name">Vota-DevMob</string>
+    <string name="label_new_poll_screen">Criar votação</string>
+    <string name="label_polling_screen">Votar</string>
+    <string name="label_poll_result_screen">Resultado</string>
 
     <!-- Intent key for poll -->
     <string name="poll_intent_key">current_poll</string>
