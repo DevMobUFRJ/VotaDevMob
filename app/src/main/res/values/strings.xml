@@ -1,3 +1,48 @@
 <resources>
-    <string name="app_name">VotaDevMob</string>
+    <string name="app_name">Vota-DevMob</string>
+    <string name="label_new_poll_screen">Criar votação</string>
+    <string name="label_polling_screen">Votar</string>
+    <string name="label_poll_result_screen">Resultado</string>
+
+    <!-- Intent key for poll -->
+    <string name="poll_intent_key">current_poll</string>
+
+    <!-- New Poll screen -->
+    <string name="poll_title">Título</string>
+    <string name="poll_create">Criar votação</string>
+    <string name="poll_option">Digite uma opção</string>
+    <string name="add_option">Adicionar opção</string>
+    <string name="one_answer">Única resposta</string>
+    <string name="multiple_answers">Múltiplas respostas</string>
+    <string name="poll_password">Senha</string>
+    <string name="add_button">Adicionar</string>
+    <string name="your_poll_id">ID da sua votação:\ </string>
+    <string name="creation_success">Votação criada com sucesso!</string>
+  
+    <!-- Poll screen -->
+    <string name="poll_button">VOTAR</string>
+    <string name="poll_empty_title">- Votação sem título -</string>
+    <string name="poll_error_no_option_selected">Parece que nenhuma opção foi selecionada.</string>
+    <string name="poll_error_major_message">Parece que houve uma falha ao procurar por esta votação. Por favor, volte e
+        tente novamente\n:(
+    </string>
+
+    <!-- Poll Result Screen -->
+    <string name="result_most_voted_option">Opção mais votada:</string>
+    <string name="result_most_voted_option_value">%s (%d votos)</string>
+    <string name="result_total_votes_number">Quantidade de votos:</string>
+    <string name="result_total_votes_number_value">%d votos</string>
+    <string name="result_draw">Empate</string>
+    <string name="result_error_major_message">Parece que houve uma falha ao procurar por esta votação. Por favor, volte e
+        tente novamente\n:(
+    </string>
+
+    <!-- Main Screen -->
+    <string name="main_create_poll_button">"Em breve"</string>
+    <string name="main_dialog_title">Qual votação?</string>
+    <string name="main_error_password">Senha incorreta</string>
+    <string name="new_poll_error_message">Parece que houve uma falha ao criar uma votação. Por favor, volte e
+        tente novamente\n:(
+    </string>
+
 </resources>
