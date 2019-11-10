@@ -18,7 +18,9 @@
     <string name="add_button">Adicionar</string>
     <string name="your_poll_id">ID da sua votação:\ </string>
     <string name="creation_success">Votação criada com sucesso!</string>
-  
+    <string name="copied_to_clipboard">Copiado!</string>
+    <string name="poll_id_label">Id da Votação</string>
+
     <!-- Poll screen -->
     <string name="poll_button">VOTAR</string>
     <string name="poll_empty_title">- Votação sem título -</string>
