@@ -37,6 +37,7 @@ class PollResultActivity : AppCompatActivity(), PollResultContract.View {
             description.isEnabled = false
             legend.isEnabled = false
             setDrawEntryLabels(false)
+            setNoDataText(getString(R.string.result_empty))
         }
     }
 
