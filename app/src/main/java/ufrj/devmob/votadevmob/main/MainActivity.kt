@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     internal lateinit var presenter: MainContract.Presenter
 
+    private var currentId = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,19 +31,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         resultPollButton.setOnClickListener { showInputDialog(PollResultActivity::class.java) }
     }
 
-    internal fun showInputDialog(activity: Class<out AppCompatActivity>) {
+    override fun showInputDialog(activity: Class<out AppCompatActivity>, withId: Boolean) {
         val view = layoutInflater.inflate(R.layout.dialog_main_input, null)
         AlertDialog.Builder(this).run {
             setView(view)
             setTitle(getString(R.string.main_dialog_title))
             setPositiveButton(getString(android.R.string.ok)) { _, _ ->
-                presenter.getPollForActivity(id = view.idEditText.text.toString(),
+                currentId = view.idEditText.text.toString()
+                presenter.getPollForActivity(id = currentId,
                     password = view.passwordEditText.text.toString(),
                     activity = activity)
             }
             setNegativeButton(getString(android.R.string.cancel)) { _, _ -> }
             show()
         }
+        if (withId) view.idInput.editText?.setText(currentId)
     }
 
     override fun goToActivity(activity: Class<out AppCompatActivity>, poll: Poll) {
