@@ -163,4 +163,12 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
     override fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
+    override fun disableAddButton() {
+        button_addOption.isEnabled = false
+    }
+
+    override fun enableAddButton() {
+        button_addOption.isEnabled = true
+    }
 }

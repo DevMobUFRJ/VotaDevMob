@@ -11,6 +11,8 @@ interface NewPollContract {
         fun showToast(errorMessage: String)
         fun showMajorErrorMessage()
         fun hideCreateButton()
+        fun enableAddButton()
+        fun disableAddButton()
     }
 
     interface Presenter {
