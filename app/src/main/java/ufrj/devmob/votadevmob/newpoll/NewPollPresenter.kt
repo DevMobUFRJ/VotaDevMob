@@ -17,6 +17,7 @@ class NewPollPresenter(val view: NewPollContract.View) : NewPollContract.Present
 
         val poll = Poll(id, password, title, options)
 
+        view.disableAddButton()
         model.createNewPoll(poll = poll,  callback = object : Callback<Poll> {
             override fun onSuccess(result: Poll) {
                 view.hideCreateButton()
@@ -25,6 +26,7 @@ class NewPollPresenter(val view: NewPollContract.View) : NewPollContract.Present
 
             override fun onError(exception: Exception) {
                 view.showToast(exception.toString())
+                view.enableAddButton()
             }
         })
     }

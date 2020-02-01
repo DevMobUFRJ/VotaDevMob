@@ -9,6 +9,6 @@ class PollResultValueFormatter: IValueFormatter {
 
     override fun getFormattedValue(value: Float, entry: Entry?, dataSetIndex: Int, viewPortHandler: ViewPortHandler?): String {
         entry as PieEntry
-        return "${entry.label} (${value.toInt()})"
+        return if (value > 0) "${entry.label} (${value.toInt()})" else ""
     }
 }

@@ -18,7 +18,9 @@
     <string name="add_button">Adicionar</string>
     <string name="your_poll_id">ID da sua votação:\ </string>
     <string name="creation_success">Votação criada com sucesso!</string>
-  
+    <string name="copied_to_clipboard">Copiado!</string>
+    <string name="poll_id_label">Id da Votação</string>
+
     <!-- Poll screen -->
     <string name="poll_button">VOTAR</string>
     <string name="poll_empty_title">- Votação sem título -</string>
@@ -33,6 +35,7 @@
     <string name="result_total_votes_number">Quantidade de votos:</string>
     <string name="result_total_votes_number_value">%d votos</string>
     <string name="result_draw">Empate</string>
+    <string name="result_empty">Ainda não há votos</string>
     <string name="result_error_major_message">Parece que houve uma falha ao procurar por esta votação. Por favor, volte e
         tente novamente\n:(
     </string>
@@ -40,6 +43,8 @@
     <!-- Main Screen -->
     <string name="main_create_poll_button">"Em breve"</string>
     <string name="main_dialog_title">Qual votação?</string>
+    <string name="main_dialog_id_hint">Id da votação</string>
+    <string name="main_dialog_password_hint">Senha</string>
     <string name="main_error_password">Senha incorreta</string>
     <string name="new_poll_error_message">Parece que houve uma falha ao criar uma votação. Por favor, volte e
         tente novamente\n:(

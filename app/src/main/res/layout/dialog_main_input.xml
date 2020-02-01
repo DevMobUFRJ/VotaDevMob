@@ -18,8 +18,8 @@
                 android:id="@+id/idEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="Id da votação" />
+                android:inputType="number"
+                android:hint="@string/main_dialog_id_hint" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Senha" />
+                android:hint="@string/main_dialog_password_hint" />
 
     </android.support.design.widget.TextInputLayout>
 

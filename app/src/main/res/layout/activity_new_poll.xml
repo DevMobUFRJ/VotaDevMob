@@ -49,16 +49,6 @@
                     android:textSize="16sp"/>
 
         </android.support.design.widget.TextInputLayout>
-
-        <!--<ToggleButton-->
-                <!--android:id="@+id/toggle_answers"-->
-                <!--android:layout_height="56dp"-->
-                <!--android:layout_width="90dp"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_marginStart="8dp"-->
-                <!--android:textOff="@string/one_answer"-->
-                <!--android:textOn="@string/multiple_answers"-->
-                <!--android:layout_weight="1"/>-->
     </LinearLayout>
 
     <LinearLayout
@@ -127,8 +117,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Your Poll Key"
+                tools:text="Your Poll Key"
                 android:textSize="22sp"/>
+
+        <ImageView
+                android:id="@+id/copyToClipboardIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_content_copy_black_24dp"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+
     </LinearLayout>
 
     <LinearLayout

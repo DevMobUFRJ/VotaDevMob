@@ -11,6 +11,7 @@ interface MainContract {
         fun hideLoading()
         fun showToastError(errorMessage: String)
         fun showIncorrectPasswordError()
+        fun showInputDialog(activity: Class<out AppCompatActivity>, withId: Boolean = false)
     }
 
     interface Presenter {

@@ -1,6 +1,8 @@
 package ufrj.devmob.votadevmob.newpoll
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -47,6 +49,10 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
         field_pollOption.setOnEditorActionListener { v, actionId, event -> sendOption(v, actionId, event) }
         button_vote.setOnClickListener { goToVoteActivity(PollActivity::class.java, poll) }
         button_backMain.setOnClickListener { this.finish() }
+        copyToClipboardIcon.setOnClickListener {
+            copyIdToClipboard()
+            showToast(getString(R.string.copied_to_clipboard))
+        }
     }
 
     private val selectedOptions = mutableSetOf<View>()
@@ -151,6 +157,7 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
 
     override fun showMajorErrorMessage() {
         text_pollKey.visibility = View.GONE
+        copyToClipboardIcon.visibility = View.GONE
         field_pollTitle.visibility = View.GONE
         field_pollPassword.visibility = View.GONE
         field_pollOption.visibility = View.GONE
@@ -162,5 +169,19 @@ class NewPollActivity : AppCompatActivity(), NewPollContract.View {
 
     override fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun disableAddButton() {
+        button_addOption.isEnabled = false
+    }
+
+    override fun enableAddButton() {
+        button_addOption.isEnabled = true
+    }
+
+    private fun copyIdToClipboard() {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(getString(R.string.poll_id_label), text_pollKey.text.toString())
+        clipboard.primaryClip = clip
     }
 }

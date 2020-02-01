@@ -16,12 +16,16 @@ class MainPresenter(private val view: MainContract.View) : MainContract.Presente
                 view.hideLoading()
                 if (result.password == password)
                     view.goToActivity(activity, result)
-                else
+                else {
                     view.showIncorrectPasswordError()
+                    view.showInputDialog(activity, true)
+                }
+
             }
             override fun onError(exception: Exception) {
                 view.hideLoading()
                 view.showToastError(exception.message.toString())
+                view.showInputDialog(activity, true)
             }
         })
     }
